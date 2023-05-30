@@ -1,0 +1,52 @@
+body{
+    margin: 0; 
+    height: 100%; 
+    overflow: hidden;
+}
+
+div#header{
+    position:fixed;
+    top:0px;
+    width:100vw;
+}
+
+h5,p{
+    color: skyblue;
+}
+
+img.d-block{
+    height:500px;
+}
+
+h2#section-title{
+    margin-top:30px;
+    margin-bottom:10px;
+}
+
+div#booklist{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+div#booklist > div{
+    width:10rem;
+}
+
+@media only screen and (max-width: 576px) {
+    div#booklist{
+        display: block;
+    }
+    div#booklist > div{
+        width:100%;
+    }
+}
+
+div#productList{
+    overflow:scroll;
+    height:55vh;
+}
+
+div#footer{
+    height:200px;
+    background-color:skyblue;
+}
