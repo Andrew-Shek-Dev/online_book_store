@@ -1,4 +1,3 @@
-const BACKEND_SERVER_URL = "https://dummyjson.com/";
 async function loadBooks(){
     //Ask for server - fetch
     const res = await fetch(BACKEND_SERVER_URL+"products");
