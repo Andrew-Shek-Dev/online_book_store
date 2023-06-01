@@ -28,3 +28,12 @@ div#navbarNav
     display: flex;
     justify-content: space-between;
 }
+
+.error{
+    color:red;
+}
+
+a#userInfoLink{
+    text-decoration: none;
+    color: black;
+}

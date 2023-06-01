@@ -56,9 +56,9 @@
             <h5 class="card-title">iPhone 9</h5>
             <p class="card-text">An apple mobile which is nothing like apple</p>
             <div class="input-group" style="height:30px;width: 102px;">
-              <button class="btn btn-outline-secondary" type="button"aria-expanded="false">+</button>
+              <button id="add" class="btn btn-outline-secondary" type="button"aria-expanded="false">+</button>
               <input id="quantity" type="text" class="form-control" aria-label="Text input with 2 dropdown buttons" value="0">
-              <button class="btn btn-outline-secondary" type="button" aria-expanded="false">-</button>
+              <button id="minus" class="btn btn-outline-secondary" type="button" aria-expanded="false">-</button>
             </div>
           </div>
           <div class="card-footer d-flex justify-content-center align-items-center">
@@ -69,9 +69,24 @@
       </div>
       <div style="width:100vw;display: flex;justify-content: flex-end;align-items: center;background-color:skyblue; border-radius: 20px; padding: 10px;">
         <div id="total"></div>
-        <button type="button" class="btn btn-primary ms-sm-5">Payment</button>
+        <button type="button" class="btn btn-primary ms-sm-5" id="liveToastBtn">Payment</button>
       </div>
     </div>
+    <!--Toast-->
+<div class="toast-container position-fixed top-0 end-0 p-3">
+  <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <strong class="me-auto">Message</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+     Payment Completed! Invoice# : ??
+    </div>
+    <div>
+      <a href="/">Back</a>
+    </div>
+  </div>
+</div>
     <script src="/tools.js"></script>
     <script src="/checkout.js"></script>
 </body>

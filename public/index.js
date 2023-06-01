@@ -52,9 +52,51 @@ async function logoutFormSetup(){
     });
 }
 
+async function registerFormSetup() {
+    document.querySelector("form#RegisterPanel").addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const form = event.target;
+        if (form.password.value != form.confirmPassword.value) {
+            const errTag = document.querySelector("#errTag");
+            errTag.innerHTML = "<div class='error'>Both passwords not matched</div>";
+            return;
+        }
+        errTag.innerHTML = "";
+        const buyer = document.querySelector("#flexRadioDefault1").checked;
+        //const seller = document.querySelector("#flexRadioDefault2").checked;
+        const newForm = {
+            username: form.username.value,
+            password: form.password.value,
+            role: buyer?"buyer":"seller"
+        }
+        console.log(newForm)
+        const res = await fetch(BACKEND_SERVER_URL + "users/add", {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newForm)
+        });
+        const user = await res.json();
+        let myModalEl = document.getElementById('exampleModal');
+        let modal = bootstrap.Modal.getInstance(myModalEl)
+        modal.hide();
+    });
+
+    const toastTrigger = document.getElementById('liveToastBtn')
+    const toastLiveExample = document.getElementById('liveToast')
+
+    if (toastTrigger) {
+        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+        toastTrigger.addEventListener('click', () => {
+            toastBootstrap.show()
+        })
+    }
+}
+
 const main = async ()=>{
     await loadBooks();
     await loginFormSetup();
     await logoutFormSetup();
+    await registerFormSetup();
 }
 main();

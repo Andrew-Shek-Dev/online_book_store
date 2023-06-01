@@ -52,3 +52,9 @@ div#footer{
     height:200px;
     background-color:skyblue;
 }
+
+.submitButton{
+    width:100%;
+    display: flex;
+    justify-content: flex-end;
+}

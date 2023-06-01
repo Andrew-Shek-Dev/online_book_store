@@ -36,16 +36,17 @@
                 </button>
 
                 <div id="logginPanel" hidden>
-                  <div id="userInfo">
-                    <img id="profile" src="https://robohash.org/autquiaut.png?size=50x50&set=set1"/>
-                    <div id="badge">0</div>
-                    <span>Hello! Andrew</span>
-                    <button id="logout" type="button" class="btn btn-primary">
-                      <i class="bi bi-journal"></i>
-                      <span>Back to real world</span>
-                    </button>
-                  </div>
-                 
+                  <a id="userInfoLink" href="/checkout.html">
+                    <div id="userInfo">
+                      <img id="profile" src="https://robohash.org/autquiaut.png?size=50x50&set=set1"/>
+                      <div id="badge">0</div>
+                      <span>Hello! Andrew</span>
+                      <button id="logout" type="button" class="btn btn-primary">
+                        <i class="bi bi-journal"></i>
+                        <span>Back to real world</span>
+                      </button>
+                    </div>
+                  </a>
                 </div>
 
               </div>
@@ -110,22 +111,74 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Login</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Welcome Back!</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Login</h1>
         <form id="loginPanel">
           <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Login Name</label>
-            <input type="text" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <label for="exampleInputEmail1" class="form-label">Login Name (Email)</label>
+            <input type="email" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
           </div>
           <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Password</label>
             <input type="password" name="password" class="form-control" id="exampleInputPassword1">
           </div>
-          <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal" >Submit</button>
-    </form>
+          <div class="submitButton">
+            <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Login</button>
+          </div>
+         
+        </form>
+        <h4 style="width:100%;display: flex;justify-content: center;">-OR-</h4>
+        <form id="RegisterPanel">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Register</h1>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Email</label>
+            <input type="email" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Password</label>
+            <input type="password" name="password" class="form-control" id="exampleInputPassword1">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword2" class="form-label">Confirm Password</label>
+            <input type="password" name="confirmPassword" class="form-control" id="exampleInputPassword1">
+          </div>
+          <div id="errTag"></div>
+          <label class="form-label">Register as</label>
+          <div class="d-flex flex-row justify-content-around">
+            <div class="mb-3 form-check">
+              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+              <label class="form-check-label" for="flexRadioDefault1">
+                Buyer
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+              <label class="form-check-label" for="flexRadioDefault2">
+                Seller
+              </label>
+            </div>
+          </div>
+          <div class="submitButton">
+            <button type="submit" class="btn btn-secondary" id="liveToastBtn">Register</button>
+          </div>
+        </form>
+        
       </div>
+    </div>
+  </div>
+</div>
+<!--Toast-->
+<div class="toast-container position-fixed top-0 end-0 p-3">
+  <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <strong class="me-auto">Message</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+     Registration Completed! Please try login. 
     </div>
   </div>
 </div>
