@@ -2,22 +2,19 @@
 let carts = [];
 let data;
 const template = document.querySelector("#template");
-const add = async(id)=>{
+const action = async(id,action)=>{
     const num_id = parseInt(id.replace("id-",""));
     const targetCart=carts.filter(cart=>cart.id==num_id)[0];
-    targetCart.quantity = targetCart.quantity + 1;
-    targetCart.total = targetCart.price * targetCart.quantity;
-    data.total = data.total + targetCart.price;
-    await reloadCarts();
-}
-
-const minus = async(id)=>{
-    const num_id = parseInt(id.replace("id-",""));
-    const targetCart=carts.filter(cart=>cart.id==num_id)[0];
-    if (targetCart.quantity >= 1){
-        targetCart.quantity = targetCart.quantity - 1;
+    if (action === "add"){
+        targetCart.quantity = targetCart.quantity + 1;
         targetCart.total = targetCart.price * targetCart.quantity;
-        data.total = data.total - targetCart.price;
+        data.total = data.total + targetCart.price;
+    }else{
+        if (targetCart.quantity >= 1){
+            targetCart.quantity = targetCart.quantity - 1;
+            targetCart.total = targetCart.price * targetCart.quantity;
+            data.total = data.total - targetCart.price;
+        }
     }
     await reloadCarts();
 }
@@ -45,7 +42,7 @@ const reloadCarts = async()=>{
         newCart.addEventListener("click",(event)=>{
             const button = event.target.id;
             const id = event.currentTarget.id;
-            button === "add"?add(id):minus(id);
+            action(id,button)
         });
         cartList.appendChild(newCart);
     }
@@ -63,15 +60,7 @@ const handlePayment = async()=>{
             document.querySelector(".toast-body").innerHTML = `Payment fail!`;
         }
     });
-    const toastTrigger = document.getElementById('liveToastBtn')
-    const toastLiveExample = document.getElementById('liveToast')
-
-    if (toastTrigger) {
-        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
-        toastTrigger.addEventListener('click', () => {
-            toastBootstrap.show()
-        })
-    }
+    setupToast();
 }
 
 const main = async ()=>{

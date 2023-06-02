@@ -60,9 +60,7 @@ async function loadBooks(){
         newBook.querySelector("img").src = book.images[0];
         newBook.querySelector(".card-title").innerHTML = book.title;
         newBook.querySelector(".card-text").innerHTML = `HKD$${book.price}`;
-
         newBook.addEventListener("click",addToCart);
-
         bookList.appendChild(newBook);
     }
 }
@@ -82,16 +80,14 @@ async function loginFormSetup(){
             })
         });
         user = await res.json();
-        console.log(user)
         if (!user.message){
             const loginButton = document.querySelector("button#loginButton");
             const userInfo = document.querySelector("div#logginPanel");
             loginButton.setAttribute("hidden",undefined);
             userInfo.removeAttribute("hidden");
             const span = userInfo.querySelector("span");
-            span.innerText = user.username; let myModalEl = document.getElementById('exampleModal');
-            let modal = bootstrap.Modal.getInstance(myModalEl)
-            modal.hide();
+            span.innerText = user.username; 
+            closeModal();
         }else{
             document.querySelector("div#loginError").innerHTML = `<div class='error'>${user.message}<div>`;
         }
@@ -122,33 +118,21 @@ async function registerFormSetup() {
         }
         errTag.innerHTML = "";
         const buyer = document.querySelector("#flexRadioDefault1").checked;
-        //const seller = document.querySelector("#flexRadioDefault2").checked;
+
         const newForm = {
             username: form.username.value,
             password: form.password.value,
             role: buyer?"buyer":"seller"
         }
-        console.log(newForm)
         const res = await fetch(BACKEND_SERVER_URL + "users/add", {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(newForm)
         });
         const user = await res.json();
-        let myModalEl = document.getElementById('exampleModal');
-        let modal = bootstrap.Modal.getInstance(myModalEl)
-        modal.hide();
+        closeModal();
     });
-
-    const toastTrigger = document.getElementById('liveToastBtn')
-    const toastLiveExample = document.getElementById('liveToast')
-
-    if (toastTrigger) {
-        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
-        toastTrigger.addEventListener('click', () => {
-            toastBootstrap.show()
-        })
-    }
+    setupToast();
 }
 
 const main = async ()=>{

@@ -11,44 +11,7 @@
     <link rel="stylesheet" href="/checkout.css">
 </head>
 <body>
-    <div id="header">
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
-            <div class="container-fluid">
-              <a class="navbar-brand" href="#">Tecky Online Bookstore</a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                  <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/">Home</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">Explore</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">Products</a>
-                  </li>
-                </ul>
-
-                <div id="logginPanel">
-                  <div id="userInfo">
-                    <img id="profile" src="https://robohash.org/autquiaut.png?size=50x50&set=set1"/>
-                    <div id="badge">0</div>
-                    <span>Hello! Andrew</span>
-                    <button id="logout" type="button" class="btn btn-primary">
-                      <i class="bi bi-journal"></i>
-                      <span>Back to real world</span>
-                    </button>
-                  </div>
-                 
-                </div>
-
-              </div>
-            </div>
-        </nav>
-    </div>
-    <div class="container-fluid" style="position:absolute;top:80px;padding-left: 0px;padding-right: 0px;">
+    <div id="content" class="container-fluid" style="position:absolute;top:80px;padding-left: 0px;padding-right: 0px;">
       <div id="cartList" class="card-group flex-column ms-sm-5 me-sm-5">
         <div id="template" style="display: none;" class="card mt-sm-3 mb-sm-3 flex-row">
           <img style="width:100px" src="https://i.dummyjson.com/data/products/1/thumbnail.jpg" class="card-img-top m-sm-3 m-sm-3" alt="...">
@@ -72,21 +35,7 @@
         <button type="button" class="btn btn-primary ms-sm-5" id="liveToastBtn">Payment</button>
       </div>
     </div>
-    <!--Toast-->
-<div class="toast-container position-fixed top-0 end-0 p-3">
-  <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-    <div class="toast-header">
-      <strong class="me-auto">Message</strong>
-      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-    </div>
-    <div class="toast-body">
-     Payment Completed! Invoice# : ??
-    </div>
-    <div>
-      <a href="/">Back</a>
-    </div>
-  </div>
-</div>
+    <script src="/template_login.js"></script>
     <script src="/tools.js"></script>
     <script src="/checkout.js"></script>
 </body>
