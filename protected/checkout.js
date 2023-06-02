@@ -14,17 +14,17 @@ const add = async(id)=>{
 const minus = async(id)=>{
     const num_id = parseInt(id.replace("id-",""));
     const targetCart=carts.filter(cart=>cart.id==num_id)[0];
-    targetCart.quantity = targetCart.quantity - 1;
-    targetCart.total = targetCart.price * targetCart.quantity;
-    data.total = data.total - targetCart.price;
+    if (targetCart.quantity >= 1){
+        targetCart.quantity = targetCart.quantity - 1;
+        targetCart.total = targetCart.price * targetCart.quantity;
+        data.total = data.total - targetCart.price;
+    }
     await reloadCarts();
 }
 
 const loadCarts = async ()=>{
-    const res = await fetch(BACKEND_SERVER_URL+"carts/1");
-    data = await res.json();
+    data = JSON.parse(window.localStorage.getItem("cart"));
     carts = [...data.products];
-    
     //Update DOM
     await reloadCarts();
 }
