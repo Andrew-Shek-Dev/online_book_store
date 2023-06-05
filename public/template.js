@@ -141,10 +141,16 @@ toastDiv.classList.add("p-3");
 toastDiv.innerHTML = toast;
 contentDiv.appendChild(toastDiv);
 
-function closeModal(){
-  let myModalEl = document.getElementById('exampleModal');
-  let modal = bootstrap.Modal.getInstance(myModalEl)
-  modal.hide();
+function closeModal(name){
+  if (name){
+    let myModalEl = document.getElementById(name);
+    let modal = bootstrap.Modal.getInstance(myModalEl)
+    modal.hide();
+  }else{
+    let myModalEl = document.getElementById('exampleModal');
+    let modal = bootstrap.Modal.getInstance(myModalEl)
+    modal.hide();
+  }
 }
 
 function setupToast(){

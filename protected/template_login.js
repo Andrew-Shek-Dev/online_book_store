@@ -1,40 +1,44 @@
 const nav = `
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
-            <div class="container-fluid">
-              <a class="navbar-brand" href="#">Tecky Online Bookstore</a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Tecky Online Bookstore</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/explore.html">Explore</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/seller_product.html">Products</a>
+          </li>
+        </ul>
+        <button id="loginButton" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          <i class="bi bi-book-half"></i>
+          <span>Welcome back to book world</span>
+        </button>
+
+        <div id="logginPanel" hidden>
+          <a id="userInfoLink" href="/checkout.html">
+            <div id="userInfo">
+              <img id="profile" src="https://robohash.org/autquiaut.png?size=50x50&set=set1"/>
+              <div id="badge">0</div>
+              <span>Hello! Andrew</span>
+              <button id="logout" type="button" class="btn btn-primary">
+                <i class="bi bi-journal"></i>
+                <span>Back to real world</span>
               </button>
-              <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                  <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/">Home</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">Explore</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">Products</a>
-                  </li>
-                </ul>
-
-                <div id="logginPanel">
-                  <div id="userInfo">
-                    <img id="profile" src="https://robohash.org/autquiaut.png?size=50x50&set=set1"/>
-                    <div id="badge">0</div>
-                    <span>Hello! Andrew</span>
-                    <button id="logout" type="button" class="btn btn-primary">
-                      <i class="bi bi-journal"></i>
-                      <span>Back to real world</span>
-                    </button>
-                  </div>
-                 
-                </div>
-
-              </div>
             </div>
-        </nav>
-`
+          </a>
+        </div>
+
+      </div>
+    </div>
+</nav>`
 
 const modal = `
 <div class="modal-dialog">
@@ -115,7 +119,7 @@ const toast = `
     </div>
   </div>`;
 
-  const navBar = document.createElement("div");
+const navBar = document.createElement("div");
 navBar.id = "header";
 navBar.innerHTML = nav;
 document.querySelector("body").insertBefore(navBar,null);
@@ -150,4 +154,17 @@ function setupToast(){
             toastBootstrap.show()
         })
     }
+}
+
+
+function closeModal(name){
+  if (name){
+    let myModalEl = document.getElementById(name);
+    let modal = bootstrap.Modal.getInstance(myModalEl)
+    modal.hide();
+  }else{
+    let myModalEl = document.getElementById('exampleModal');
+    let modal = bootstrap.Modal.getInstance(myModalEl)
+    modal.hide();
+  }
 }
