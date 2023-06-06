@@ -1,9 +1,13 @@
 import express from "express";
-import dotenv from "dotenv";
 import path from "path";
-dotenv.config();
+import {userRouter} from "./user/userRoute";
 
 const app = express();
+app.use(express.urlencoded());
+app.use(express.json());
+//TODO: session
+
+app.use(userRouter);
 
 app.use(express.static(path.resolve(__dirname,"public")));
 app.use(/*TODO: guard,*/express.static(path.resolve(__dirname,"protected")));

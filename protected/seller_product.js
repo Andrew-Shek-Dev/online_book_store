@@ -9,6 +9,8 @@ const action = async(newCart,action_name)=>{
         const title = newCart.querySelector(".card-title").value;
         const description = newCart.querySelector(".card-text").value;
         const price = parseInt(newCart.querySelector("[name=price]").value);
+        //TODO : Change the form from url-encode to formidable style
+        //      because it contain image
         const res = await fetch(BACKEND_SERVER_URL+"products/"+num_id,
         {
             method:"PUT",
@@ -54,7 +56,7 @@ const reloadCarts = async()=>{
         newCart.id = "id-"+cart.id;
         newCart.style = "border-left: 5px solid wheat;border-radius: 0px 0px 20px 0px;";
         //TODO: update content
-        newCart.querySelector("img").src = product.thumbnail;
+        newCart.querySelector("img").src = product.images[0]
         newCart.querySelector(".card-title").value = cart.title;
         newCart.querySelector(".card-text").value =product.description;
         newCart.querySelector("[name=price]").value = cart.price;
