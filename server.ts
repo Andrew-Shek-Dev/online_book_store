@@ -1,11 +1,12 @@
 import express from "express";
 import path from "path";
 import {userRouter} from "./user/userRoute";
+import { applyExpressSessionMiddleware } from "./session";
 
 const app = express();
 app.use(express.urlencoded());
 app.use(express.json());
-//TODO: session
+app.use(applyExpressSessionMiddleware);
 
 app.use(userRouter);
 
