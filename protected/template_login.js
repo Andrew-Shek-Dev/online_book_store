@@ -124,6 +124,36 @@ navBar.id = "header";
 navBar.innerHTML = nav;
 document.querySelector("body").insertBefore(navBar,null);
 
+async function getCurrentUser(){
+  const res = await fetch(BACKEND_SERVER_URL+"currentUser");
+  const loggedUser = await res.json();
+  if (loggedUser.user_id){
+    const loginButton = document.querySelector("button#loginButton");
+    const userInfo = document.querySelector("div#logginPanel");
+    loginButton.setAttribute("hidden",undefined);
+    userInfo.removeAttribute("hidden");
+    const span = userInfo.querySelector("span");
+    span.innerText = loggedUser.username; 
+
+    const explore = document.querySelector("li#buyer");
+    const product = document.querySelector("li#seller");
+    if (user.role === "buyer"){
+      explore.removeAttribute("hidden");
+      product.setAttribute("hidden",undefined);
+    }else{
+      product.removeAttribute("hidden");
+      explore.setAttribute("hidden",undefined);
+    }
+  }else{
+    const loginButton = document.querySelector("button#loginButton");
+    const userInfo = document.querySelector("div#logginPanel");
+    userInfo.setAttribute("hidden",undefined);
+    loginButton.removeAttribute("hidden");
+    user = undefined;
+  }
+}
+getCurrentUser();
+
 const contentDiv1 = document.querySelector("div#content");
 const modalDiv = document.createElement("div");
 modalDiv.classList.add("modal");

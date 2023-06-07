@@ -10,10 +10,10 @@ const nav = `
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="/">Home</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" id="buyer">
             <a class="nav-link" href="/explore.html">Explore</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" id="seller">
             <a class="nav-link" href="/seller_product.html">Products</a>
           </li>
         </ul>
@@ -121,6 +121,36 @@ const navBar = document.createElement("div");
 navBar.id = "header";
 navBar.innerHTML = nav;
 contentDiv.appendChild(navBar);
+
+async function getCurrentUser(){
+  const res = await fetch(BACKEND_SERVER_URL+"currentUser");
+  const user = await res.json();
+  if (user.user_id){
+    const loginButton = document.querySelector("button#loginButton");
+    const userInfo = document.querySelector("div#logginPanel");
+    loginButton.setAttribute("hidden",undefined);
+    userInfo.removeAttribute("hidden");
+    const span = userInfo.querySelector("span");
+    span.innerText = user.username;
+    
+    const explore = document.querySelector("#buyer");
+    const product = document.querySelector("#seller");
+    if (user.role === "buyer"){
+      explore.removeAttribute("hidden");
+      product.setAttribute("hidden",undefined);
+    }else{
+      product.removeAttribute("hidden");
+      explore.setAttribute("hidden",undefined);
+    }
+  }else{
+    const loginButton = document.querySelector("button#loginButton");
+    const userInfo = document.querySelector("div#logginPanel");
+    userInfo.setAttribute("hidden",undefined);
+    loginButton.removeAttribute("hidden");
+    user = undefined;
+  }
+}
+getCurrentUser();
 
 const modalDiv = document.createElement("div");
 modalDiv.classList.add("modal");

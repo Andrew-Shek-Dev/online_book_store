@@ -53,7 +53,7 @@ async function loadBooks(){
     //Update DOM
     const template = document.querySelector("#template");
     const bookList = document.querySelector("#booklist");
-    for(let book of books.products){
+    for(let book of books){
         const newBook = template.cloneNode(true);
         newBook.id = "id-"+book.id;
         newBook.style="";
@@ -98,6 +98,7 @@ async function loginFormSetup(){
 async function logoutFormSetup(){
     document.querySelector("button#logout").addEventListener("click",async(event)=>{
         //TODO: fetch POST /logout
+        const res = await fetch(BACKEND_SERVER_URL+"logout");
         const loginButton = document.querySelector("button#loginButton");
         const userInfo = document.querySelector("div#logginPanel");
         userInfo.setAttribute("hidden",undefined);
