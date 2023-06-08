@@ -10,10 +10,10 @@ const nav = `
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="/">Home</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" id="buyer">
             <a class="nav-link" href="/explore.html">Explore</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" id="seller">
             <a class="nav-link" href="/seller_product.html">Products</a>
           </li>
         </ul>
@@ -127,7 +127,7 @@ document.querySelector("body").insertBefore(navBar,null);
 async function getCurrentUser(){
   const res = await fetch(BACKEND_SERVER_URL+"currentUser");
   const loggedUser = await res.json();
-  if (loggedUser.user_id){
+  if (!loggedUser.msg){
     const loginButton = document.querySelector("button#loginButton");
     const userInfo = document.querySelector("div#logginPanel");
     loginButton.setAttribute("hidden",undefined);
@@ -137,19 +137,37 @@ async function getCurrentUser(){
 
     const explore = document.querySelector("li#buyer");
     const product = document.querySelector("li#seller");
-    if (user.role === "buyer"){
+    if (loggedUser.role === "buyer"){
       explore.removeAttribute("hidden");
       product.setAttribute("hidden",undefined);
     }else{
       product.removeAttribute("hidden");
       explore.setAttribute("hidden",undefined);
     }
+
+    const data = JSON.parse(localStorage.getItem("cart"));
+    //Update Cart Qty
+    const badge = document.querySelector("div#badge");
+    //WEF002 Ex
+    if (!data){
+      badge.innerHTML = 0;
+    }else{
+      const qtyTotal = data.products.reduce((total,product)=>product.quantity+total,0);
+      badge.innerHTML = qtyTotal;
+    }
   }else{
+    //Modal Box
     const loginButton = document.querySelector("button#loginButton");
     const userInfo = document.querySelector("div#logginPanel");
-    userInfo.setAttribute("hidden",undefined);
     loginButton.removeAttribute("hidden");
-    user = undefined;
+    userInfo.setAttribute("hidden",undefined);
+    //user = undefined;
+
+    //Links in Nar Bar
+    const explore = document.querySelector("#buyer");
+    const product = document.querySelector("#seller");
+    product.setAttribute("hidden",undefined);
+    explore.setAttribute("hidden",undefined);
   }
 }
 getCurrentUser();

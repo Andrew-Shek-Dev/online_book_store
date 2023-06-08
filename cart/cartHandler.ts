@@ -8,7 +8,7 @@ const SQL_SELECT_SELLER_PRODUCT = (member_id:number)=>`select * from product whe
 
 export const addProductInCart =async (req:Request,res:Response) => {
     const newItems:Array<Pick<CartItem,"id"|"quantity">> = req.body;
-    if (!req.session.cart){
+    if (!req.session.cart || req.session.cart.products.length == 0){
         const products = [];
         let total = 0;
         for(let newItem of newItems){
@@ -54,7 +54,8 @@ export const addProductInCart =async (req:Request,res:Response) => {
     }
     res.json({
         cart_id:req.session.cart?.id,
-        products:req.session.cart?.products
+        products:req.session.cart?.products,
+        total:req.session.cart.total
     });
 }
 export const payment =async (req:Request,res:Response) => {
@@ -68,6 +69,7 @@ export const payment =async (req:Request,res:Response) => {
             count++;
         }
     }
+    req.session.cart = undefined;
     if (count === products.length){
         res.json({success:true,invoice:cart_id});
     }else{

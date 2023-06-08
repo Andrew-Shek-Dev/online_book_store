@@ -11,7 +11,7 @@ export type SessionUser = Pick<Member,"user_id"|"username"|"role">;
 
 declare module "express-session"{
     interface SessionData{
-        user:SessionUser,
-        cart:Cart
+        user?:SessionUser,
+        cart?:Cart
     }
 }

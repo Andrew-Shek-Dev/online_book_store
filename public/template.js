@@ -28,12 +28,12 @@ const nav = `
               <img id="profile" src="https://robohash.org/autquiaut.png?size=50x50&set=set1"/>
               <div id="badge">0</div>
               <span>Hello! Andrew</span>
-              <button id="logout" type="button" class="btn btn-primary">
-                <i class="bi bi-journal"></i>
-                <span>Back to real world</span>
-              </button>
             </div>
           </a>
+          <button id="logout" type="button" class="btn btn-primary">
+            <i class="bi bi-journal"></i>
+            <span>Back to real world</span>
+          </button>
         </div>
 
       </div>
@@ -69,7 +69,7 @@ const modal = `
         <h1 class="modal-title fs-5" id="exampleModalLabel">Register</h1>
         <div class="mb-3">
           <label for="exampleInputEmail1" class="form-label">Email</label>
-          <input type="email" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+          <input type="text" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
         </div>
         <div class="mb-3">
           <label for="exampleInputPassword1" class="form-label">Password</label>
@@ -124,30 +124,48 @@ contentDiv.appendChild(navBar);
 
 async function getCurrentUser(){
   const res = await fetch(BACKEND_SERVER_URL+"currentUser");
-  const user = await res.json();
-  if (user.user_id){
+  const loggedUser = await res.json();
+  console.log(loggedUser);
+  if (!loggedUser.msg){
     const loginButton = document.querySelector("button#loginButton");
     const userInfo = document.querySelector("div#logginPanel");
     loginButton.setAttribute("hidden",undefined);
     userInfo.removeAttribute("hidden");
     const span = userInfo.querySelector("span");
-    span.innerText = user.username;
+    span.innerText = loggedUser.username;
     
     const explore = document.querySelector("#buyer");
     const product = document.querySelector("#seller");
-    if (user.role === "buyer"){
+    if (loggedUser.role === "buyer"){
       explore.removeAttribute("hidden");
       product.setAttribute("hidden",undefined);
     }else{
       product.removeAttribute("hidden");
       explore.setAttribute("hidden",undefined);
     }
+    const data = JSON.parse(localStorage.getItem("cart"));
+    //Update Cart Qty
+    const badge = document.querySelector("div#badge");
+    //WEF002 Ex
+    if (!data){
+      badge.innerHTML = 0;
+    }else{
+      const qtyTotal = data.products.reduce((total,product)=>product.quantity+total,0);
+      badge.innerHTML = qtyTotal;
+    }
   }else{
+    //Modal Box
     const loginButton = document.querySelector("button#loginButton");
     const userInfo = document.querySelector("div#logginPanel");
-    userInfo.setAttribute("hidden",undefined);
     loginButton.removeAttribute("hidden");
+    userInfo.setAttribute("hidden",undefined);
     user = undefined;
+
+    //Links in Nar Bar
+    const explore = document.querySelector("#buyer");
+    const product = document.querySelector("#seller");
+    product.setAttribute("hidden",undefined);
+    explore.setAttribute("hidden",undefined);
   }
 }
 getCurrentUser();

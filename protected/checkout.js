@@ -9,11 +9,15 @@ const action = async(id,action)=>{
         targetCart.quantity = targetCart.quantity + 1;
         targetCart.total = targetCart.price * targetCart.quantity;
         data.total = data.total + targetCart.price;
+         //Update to Server
+        addToCartFunc(num_id,action);
     }else{
         if (targetCart.quantity >= 1){
             targetCart.quantity = targetCart.quantity - 1;
             targetCart.total = targetCart.price * targetCart.quantity;
             data.total = data.total - targetCart.price;
+             //Update to Server
+            addToCartFunc(num_id,action);
         }
     }
     await reloadCarts();
@@ -21,6 +25,7 @@ const action = async(id,action)=>{
 
 const loadCarts = async ()=>{
     data = JSON.parse(window.localStorage.getItem("cart"));
+    console.log(data);
     carts = [...data.products];
     //Update DOM
     await reloadCarts();
@@ -50,15 +55,22 @@ const reloadCarts = async()=>{
 }
 
 const handlePayment = async()=>{
-    document.querySelector("#liveToastBtn").addEventListener("click", () => {
-        //TODO: POST /payment
-        const success = false;
-        const invoice = "1234";
+    document.querySelector("#liveToastBtn").addEventListener("click", async() => {
+        const res = await fetch(BACKEND_SERVER_URL+"carts/payment",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({cart_id:data.cart_id})
+        });
+        const {success,invoice} = await res.json();
         if (success) {
             document.querySelector(".toast-body").innerHTML = `Payment Completed! Invoice# : ${invoice}`;
         } else {
             document.querySelector(".toast-body").innerHTML = `Payment fail!`;
         }
+        localStorage.removeItem("cart");
+        await getCurrentUser();
     });
     setupToast();
 }

@@ -101,36 +101,43 @@ export const addProduct =async (req:Request,res:Response) => {
         }
     });
 }
-export const updateProduct =async (req:Request,res:Response) => {
+export const updateProduct = async (req:Request,res:Response) => {
     const {id} = req.params;
     updateProductForm.parse(req,async(err,fields,files)=>{
-        if (err){
-            res.json({success:false,msg:err});
-            return;
-        }
-        const {title,description,price} = fields;
-        const {image} = files;
-        let newProduct:Partial<Product>;
-        if (image){
-            newProduct = {
-                id:parseInt(id),
-                title:title as string,
-                description: description as string,
-                price: parseInt(price as string),
-                image: (image as formidable.File).newFilename
+        try{
+            if (err){
+                console.log(err);
+                res.json({success:false,msg:err});
+                return;
             }
-        }else{
-            newProduct = {
-                id:parseInt(id),
-                title:title as string,
-                description: description as string,
-                price: parseInt(price as string)
+            const {title,description,price} = fields;            
+            const {image} = files;
+            let newProduct:Partial<Product>;
+            if (image){
+                newProduct = {
+                    id:parseInt(id),
+                    title:title as string,
+                    description: description as string,
+                    price: parseInt(price as string),
+                    image: (image as formidable.File).newFilename
+                }
+            }else{
+                newProduct = {
+                    id:parseInt(id),
+                    title:title as string,
+                    description: description as string,
+                    price: parseInt(price as string)
+                }
+    
             }
-        }
-        const updateRec = await db_client.query(SQL_UPDATE_PRODUCT(newProduct));
-        if (updateRec.rows.length > 0){
-            res.json({success:true});
-        }else{
+            const updateRec = await db_client.query(SQL_UPDATE_PRODUCT(newProduct));
+            if (updateRec.rows.length > 0){
+                res.json({success:true});
+            }else{
+                res.json({success:false,msg:"unknown error"});
+            }
+        }catch(err){
+            console.log(err);
             res.json({success:false,msg:"unknown error"});
         }
     });

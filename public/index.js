@@ -1,48 +1,7 @@
 let user = undefined;
-let shoppingCart = {
-    userId:-1,
-    products:[]
-}
 const addToCart = async (event)=>{
-    //Div (with id)
     const id = parseInt( event.currentTarget/*element which defined event function*/.id.replace("id-",'') );
-    shoppingCart.userId = user.id;
-    const checkQty = shoppingCart.products.filter(cart=>cart.id == id);
-    if (checkQty.length == 0){
-        shoppingCart.products.push({id,quantity:1})
-    }else{
-        checkQty[0].quantity++;
-    }
-    const res = await fetch(BACKEND_SERVER_URL+"carts/add",{
-        method:"POST",
-        headers:{
-            "Content-Type":"application/json"
-        },
-        body:JSON.stringify(shoppingCart)
-    });
-    const data = await res.json();
-    /*
-    {
-    "id": 21,
-    "products": [
-        {
-            "id": 1,
-            "title": "iPhone 9",
-            "price": 549,
-            "quantity": 1,
-            "total": 549,
-            "discountPercentage": 12.96,
-            "discountedPrice": 478
-        }
-    ],
-    "total": 549,
-    "discountedTotal": 478,
-    "userId": 15,
-    "totalProducts": 1,
-    "totalQuantity": 1
-    }
-    */
-    localStorage.setItem("cart",JSON.stringify(data));
+    addToCartFunc(id,"add");
 }
 
 async function loadBooks(){
@@ -81,28 +40,24 @@ async function loginFormSetup(){
         });
         user = await res.json();
         if (!user.message){
-            const loginButton = document.querySelector("button#loginButton");
-            const userInfo = document.querySelector("div#logginPanel");
-            loginButton.setAttribute("hidden",undefined);
-            userInfo.removeAttribute("hidden");
-            const span = userInfo.querySelector("span");
-            span.innerText = user.username; 
             closeModal();
         }else{
             document.querySelector("div#loginError").innerHTML = `<div class='error'>${user.message}<div>`;
         }
-        
+        await getCurrentUser();
     })
 }
 
 async function logoutFormSetup(){
     document.querySelector("button#logout").addEventListener("click",async(event)=>{
-        //TODO: fetch POST /logout
-        const res = await fetch(BACKEND_SERVER_URL+"logout");
-        const loginButton = document.querySelector("button#loginButton");
-        const userInfo = document.querySelector("div#logginPanel");
-        userInfo.setAttribute("hidden",undefined);
-        loginButton.removeAttribute("hidden");
+        const res = await fetch(BACKEND_SERVER_URL+"logout",{
+            method:"POST"
+        });
+        const {success} = await res.json();
+        if (success){
+            window.location = "/";
+        }
+        await getCurrentUser();
         user = undefined;
     });
 }
@@ -131,6 +86,7 @@ async function registerFormSetup() {
             body: JSON.stringify(newForm)
         });
         const user = await res.json();
+        form.reset();
         closeModal();
     });
     setupToast();

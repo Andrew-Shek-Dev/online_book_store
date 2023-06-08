@@ -4,6 +4,7 @@ let data;
 const template = document.querySelector("#template");
 const action = async(newCart,action_name)=>{
     const num_id = parseInt(newCart.id.replace("id-",""));
+    console.log(action_name)
     if (action_name === "update"){
         //Update the Product
         const title = newCart.querySelector(".card-title").value;
@@ -11,37 +12,37 @@ const action = async(newCart,action_name)=>{
         const price = parseInt(newCart.querySelector("[name=price]").value);
         //TODO : Change the form from url-encode to formidable style
         //      because it contain image
+        const formData = new FormData();
+        formData.append("title",title);
+        formData.append("description",description);
+        formData.append("price",price);
         const res = await fetch(BACKEND_SERVER_URL+"products/"+num_id,
         {
             method:"PUT",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body:JSON.stringify({
-                title,
-                description,
-                price
-            })
+            body:formData
         });
         await res.json();
     }else{
         //Delete the Product
-        const res = await fetch(BACKEND_SERVER_URL+"products/"+num_id);
+        const res = await fetch(BACKEND_SERVER_URL+"products/"+num_id,{
+            method:"DELETE"
+        });
         await res.json();
     }
-    await reloadCarts();
+    await loadCarts();
 }
 
 const loadCarts = async ()=>{
     const res = await fetch(BACKEND_SERVER_URL+"carts/1");
     data = await res.json();
+    console.log(data);
     carts = [...data.products];
     //Update DOM
     await reloadCarts();
 }
 
 const loadProductDetail = async (id)=>{
-    const res = await fetch(BACKEND_SERVER_URL+"products/"+id);
+    const res = await fetch(BACKEND_SERVER_URL+"product/"+id);
     const product = await res.json();
     return product;
 }

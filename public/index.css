@@ -58,3 +58,12 @@ div#footer{
     display: flex;
     justify-content: flex-end;
 }
+
+a#userInfoLink{
+    margin-right:10px;
+}
+
+div#logginPanel{
+    display:flex;
+    justify-content:space-around;
+}
